@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>Blotter</title>
+    <script src="./blotter.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Blotter/0.1.0/materials/channelSplitMaterial.js"></script>
+  </head>
+  <body>
+    <script type="text/javascript">
+    let text = new Blotter.Text("Hello", {
+      family : "serif",
+      size : 120,
+      fill : "#171717"
+    })
+
+    let material = new Blotter.ChannelSplitMaterial()
+
+    let blotter = new Blotter(material, { texts : text })
+
+    let scope = blotter.forText(text)
+
+    scope.appendTo(document.body);
+    </script>
+  </body>
+</html>
