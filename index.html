@@ -17,7 +17,7 @@
       <div id="logo" v-else></div>
     </div>
   </body>
-  <script type="text/javascript">
+  <script>
     function someAsyncFn(n) {
       return new Promise(resolve => {
         setTimeout(() => {
@@ -45,7 +45,6 @@
           this.loaded()
         });
       },
-      computed: {},
       methods: {
         render() {
           let text = new Blotter.Text("scent", {
@@ -68,10 +67,9 @@
 
           let scope = blotter.forText(text);
           scope.appendTo(document.getElementById("logo"));
-          // for (let i = 0; i < 10; i++) {
-          //   this.sleep(2000).then(() => {
-              // material.uniforms.uDodgeSpread.value += 0.1
 
+          // 文字列を消す非同期ループの即時実行
+          // ちゃんと関数にしようね
           (async function() {
             for (let i = 0; await someAsyncCond(i); i++) {
               await someAsyncFn(i)
@@ -81,9 +79,6 @@
         },
         loaded() {
           this.isLoad = true;
-        },
-        fadeOut() {
-          this.spread += 0.2;
         },
         sleep(waitSec) {
           return new Promise(resolve => {
