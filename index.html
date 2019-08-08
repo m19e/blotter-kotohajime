@@ -14,10 +14,9 @@
       fill : "#171717"
     })
 
-    var material = new Blotter.ChannelSplitMaterial()
+    let material = new Blotter.ChannelSplitMaterial()
     console.log(material.uniforms)
-    material.uniforms.uDodge.value = 1.0
-    // Object.assign(material.uniforms, { uDodge: { value: 1.0, type: "1f" }})
+    Object.assign(material.uniforms, { uDodge: { value: 1.0, type: "1f" }})
 
     let blotter = new Blotter(material, { texts : text })
 
