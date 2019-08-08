@@ -13,7 +13,7 @@
     <div id="app">
       <button @click="render">描画〜〜〜</button>
       <button @click="loaded">なんでもいい</button>
-      <h2 v-if="isLoad">読み込んだよ〜〜〜〜</h2>
+      <h2 v-if="isLoad" style="text-align:center;">読み込みましたー!!!!!</h2>
       <div id="logo" v-else></div>
     </div>
   </body>
@@ -28,7 +28,7 @@
     }
     function someAsyncCond(n) {
       return new Promise(resolve => {
-        resolve(n <= 75);
+        resolve(n <= 85);
       });
     }
     const app = new Vue({
@@ -44,11 +44,6 @@
           console.log("sleep")
           this.loaded()
         });
-        // (async function() {
-        //   for (let i = 0; await someAsyncCond(i); i++) {
-        //     await someAsyncFn(i);
-        //   }
-        // })();
       },
       computed: {},
       methods: {
@@ -62,8 +57,8 @@
           let material = new Blotter.FliesMaterial();
 
           // materialにプロパティを渡すよ
-          material.uniforms.uPointCellWidth.value = 0.01;
-          material.uniforms.uPointRadius.value = 0.85;
+          material.uniforms.uPointCellWidth.value = 0.011;
+          material.uniforms.uPointRadius.value = 1;
           material.uniforms.uDodge.value = 1.0;
           material.uniforms.uDodgePosition.value = [0, 0];
           material.uniforms.uDodgeSpread.value = 0;
