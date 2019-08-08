@@ -18,59 +18,86 @@
     </div>
   </body>
   <script type="text/javascript">
-  const app = new Vue({
-    el: '#app',
-    data: () => ({
-      spread: 0.5,
-      isLoad: false,
-    }),
-    mounted() {
-      //do something after mounting vue instance
-      this.render()
-      this.sleep(2000).then(()=>{
-        console.log("sleep")
-        this.loaded()
-      })
-    },
-    computed: {
-
-    },
-    methods: {
-      render() {
-        let text = new Blotter.Text("scent", {
-          family: "serif",
-          size: 120,
-          fill: "#171717"
-        });
-
-        let material = new Blotter.FliesMaterial();
-
-        // materialにプロパティを渡すよ
-        material.uniforms.uPointCellWidth.value = 0.01;
-        material.uniforms.uPointRadius.value = 0.85;
-        material.uniforms.uDodge.value = 1.0;
-        material.uniforms.uDodgePosition.value = [0.4, 0.25];
-        material.uniforms.uDodgeSpread.value = this.spread;
-        material.uniforms.uSpeed.value = 6;
-
-        let blotter = new Blotter(material, { texts: text })
-        let scope = blotter.forText(text)
-        scope.appendTo(document.getElementById("logo"))
-      },
-      loaded() {
-        this.isLoad = true
-      },
-      fadeOut() {
-
-      },
-      sleep(waitSec) {
-        return new Promise((resolve) => {
-          setTimeout(() => {
-            resolve()
-          }, waitSec)
-    });
-}
+    function someAsyncFn(n) {
+      return new Promise(resolve => {
+        setTimeout(() => {
+          console.log(n);
+          resolve(n + 1);
+        }, 50);
+      });
     }
-  })
+    function someAsyncCond(n) {
+      return new Promise(resolve => {
+        resolve(n <= 75);
+      });
+    }
+    const app = new Vue({
+      el: "#app",
+      data: () => ({
+        spread: 0.5,
+        isLoad: false
+      }),
+      mounted() {
+        //do something after mounting vue instance
+        this.render();
+        this.sleep(5000).then(()=>{
+          console.log("sleep")
+          this.loaded()
+        });
+        // (async function() {
+        //   for (let i = 0; await someAsyncCond(i); i++) {
+        //     await someAsyncFn(i);
+        //   }
+        // })();
+      },
+      computed: {},
+      methods: {
+        render() {
+          let text = new Blotter.Text("scent", {
+            family: "serif",
+            size: 120,
+            fill: "#171717"
+          });
+
+          let material = new Blotter.FliesMaterial();
+
+          // materialにプロパティを渡すよ
+          material.uniforms.uPointCellWidth.value = 0.01;
+          material.uniforms.uPointRadius.value = 0.85;
+          material.uniforms.uDodge.value = 1.0;
+          material.uniforms.uDodgePosition.value = [0, 0];
+          material.uniforms.uDodgeSpread.value = 0;
+          material.uniforms.uSpeed.value = 6;
+
+          let blotter = new Blotter(material, { texts: text });
+
+          let scope = blotter.forText(text);
+          scope.appendTo(document.getElementById("logo"));
+          // for (let i = 0; i < 10; i++) {
+          //   this.sleep(2000).then(() => {
+              // material.uniforms.uDodgeSpread.value += 0.1
+
+          (async function() {
+            for (let i = 0; await someAsyncCond(i); i++) {
+              await someAsyncFn(i)
+              material.uniforms.uDodgeSpread.value += 0.05
+            }
+          })();
+        },
+        loaded() {
+          this.isLoad = true;
+        },
+        fadeOut() {
+          this.spread += 0.2;
+        },
+        sleep(waitSec) {
+          return new Promise(resolve => {
+            setTimeout(() => {
+              resolve();
+            }, waitSec);
+          });
+        },
+      }
+    });
   </script>
 </html>
