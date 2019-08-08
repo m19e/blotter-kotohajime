@@ -3,18 +3,21 @@
   <head>
     <meta charset="utf-8">
     <title>Blotter</title>
-    <script src="./blotter.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/Blotter/0.1.0/materials/channelSplitMaterial.js"></script>
+    <script src="blotter.min.js"></script>
+    <script src="materials/channelSplitMaterial.js"></script>
   </head>
   <body>
     <script type="text/javascript">
-    let text = new Blotter.Text("Hello", {
+    let text = new Blotter.Text("scent", {
       family : "serif",
       size : 120,
       fill : "#171717"
     })
 
-    let material = new Blotter.ChannelSplitMaterial()
+    var material = new Blotter.ChannelSplitMaterial()
+    console.log(material.uniforms)
+    material.uniforms.uDodge.value = 1.0
+    // Object.assign(material.uniforms, { uDodge: { value: 1.0, type: "1f" }})
 
     let blotter = new Blotter(material, { texts : text })
 
