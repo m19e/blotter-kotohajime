@@ -5,24 +5,41 @@
     <title>Blotter</title>
     <script src="blotter.min.js"></script>
     <script src="materials/channelSplitMaterial.js"></script>
+    <script src="materials/fliesMaterial.js"></script>
   </head>
   <body>
     <script type="text/javascript">
+
+    function sleep(time) {
+      let d1 = new Date();
+      while (true) {
+        let d2 = new Date();
+        if (d2 - d1 > time) {
+          return;
+        }
+      }
+    }
+
     let text = new Blotter.Text("scent", {
       family : "serif",
       size : 120,
       fill : "#171717"
     })
 
-    let material = new Blotter.ChannelSplitMaterial()
-    console.log(material.uniforms)
-    Object.assign(material.uniforms, { uDodge: { value: 1.0, type: "1f" }})
+    let material = new Blotter.FliesMaterial()
+
+    // materialにプロパティを渡すよ
+    material.uniforms.uPointCellWidth.value = 0.01
+    material.uniforms.uPointRadius.value = 0.85
+    material.uniforms.uDodge.value = 1.0
+    material.uniforms.uDodgePosition.value = [0.4, 0.25]
+    material.uniforms.uDodgeSpread.value = 0.1
+    material.uniforms.uSpeed.value = 6
 
     let blotter = new Blotter(material, { texts : text })
-
     let scope = blotter.forText(text)
+    scope.appendTo(document.body)
 
-    scope.appendTo(document.body);
     </script>
   </body>
 </html>
