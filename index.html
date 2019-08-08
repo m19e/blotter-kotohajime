@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <meta charset="utf-8">
+    <meta charset="utf-8" />
     <title>Blotter</title>
     <script src="blotter.min.js"></script>
     <script src="materials/channelSplitMaterial.js"></script>
@@ -10,38 +10,67 @@
     <script src="https://cdn.jsdelivr.net/npm/vue"></script>
   </head>
   <body>
-    <script type="text/javascript">
-
-    function sleep(time) {
-      let d1 = new Date();
-      while (true) {
-        let d2 = new Date();
-        if (d2 - d1 > time) {
-          return;
-        }
-      }
-    }
-
-    let text = new Blotter.Text("scent", {
-      family : "serif",
-      size : 120,
-      fill : "#171717"
-    })
-
-    let material = new Blotter.FliesMaterial()
-
-    // materialにプロパティを渡すよ
-    material.uniforms.uPointCellWidth.value = 0.01
-    material.uniforms.uPointRadius.value = 0.85
-    material.uniforms.uDodge.value = 1.0
-    material.uniforms.uDodgePosition.value = [0.4, 0.25]
-    material.uniforms.uDodgeSpread.value = 0.1
-    material.uniforms.uSpeed.value = 6
-
-    let blotter = new Blotter(material, { texts : text })
-    let scope = blotter.forText(text)
-    scope.appendTo(document.body)
-
-    </script>
+    <div id="app">
+      <button @click="render">描画〜〜〜</button>
+      <button @click="loaded">なんでもいい</button>
+      <h2 v-if="isLoad">読み込んだよ〜〜〜〜</h2>
+      <div id="logo" v-else></div>
+    </div>
   </body>
+  <script type="text/javascript">
+  const app = new Vue({
+    el: '#app',
+    data: () => ({
+      spread: 0.5,
+      isLoad: false,
+    }),
+    mounted() {
+      //do something after mounting vue instance
+      this.render()
+      this.sleep(2000).then(()=>{
+        console.log("sleep")
+        this.loaded()
+      })
+    },
+    computed: {
+
+    },
+    methods: {
+      render() {
+        let text = new Blotter.Text("scent", {
+          family: "serif",
+          size: 120,
+          fill: "#171717"
+        });
+
+        let material = new Blotter.FliesMaterial();
+
+        // materialにプロパティを渡すよ
+        material.uniforms.uPointCellWidth.value = 0.01;
+        material.uniforms.uPointRadius.value = 0.85;
+        material.uniforms.uDodge.value = 1.0;
+        material.uniforms.uDodgePosition.value = [0.4, 0.25];
+        material.uniforms.uDodgeSpread.value = this.spread;
+        material.uniforms.uSpeed.value = 6;
+
+        let blotter = new Blotter(material, { texts: text })
+        let scope = blotter.forText(text)
+        scope.appendTo(document.getElementById("logo"))
+      },
+      loaded() {
+        this.isLoad = true
+      },
+      fadeOut() {
+
+      },
+      sleep(waitSec) {
+        return new Promise((resolve) => {
+          setTimeout(() => {
+            resolve()
+          }, waitSec)
+    });
+}
+    }
+  })
+  </script>
 </html>
